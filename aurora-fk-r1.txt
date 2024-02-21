@@ -1,0 +1,112 @@
+FK Router:
+
+enable
+
+conf t
+no ip domain-lookup
+hostname FK-Router
+enable secret password
+service password-encryption
+banner motd 'Unauthorized Access is Prohibited'
+end
+
+conf t
+line console 0
+password password
+login
+logging synchronous
+end
+
+conf t
+username admin privilege 15 secret password
+username readonly privilege 1 secret password
+end
+
+conf t
+ip domain-name aurora-lab.com
+crypto key generate rsa
+2048
+ip ssh version 2
+ip ssh time-out 120
+ip ssh authentication-retries 3
+end
+
+conf t
+line vty 0 15
+login local
+password password
+transport input ssh
+logging synchronous
+end
+
+conf t
+int gig0/0
+no shut
+int gig0/0.10
+encapsulation dot1Q 10
+ip address 192.168.1.1 255.255.255.192
+ipv6 address 2001:db8:acad:f10::1/64
+ipv6 address fe80::1 link-local
+end
+
+conf t
+int gig0/0.20
+encapsulation dot1Q 20
+ip address 192.168.1.65 255.255.255.192
+ipv6 address 2001:db8:acad:f20::1/64
+ipv6 address fe80::1 link-local
+end
+
+conf t
+int gig0/0.30
+encapsulation dot1Q 30
+ip address 192.168.1.129 255.255.255.192
+ipv6 address 2001:db8:acad:f30::1/64
+ipv6 address fe80::1 link-local
+end
+
+conf t
+int gig0/0.50
+encapsulation dot1Q 50
+ip address 192.168.1.193 255.255.255.192
+ipv6 address 2001:db8:acad:f50::1/64
+ipv6 address fe80::1 link-local
+end
+
+conf t
+ip dhcp excluded-address 192.168.1.1 192.168.1.10
+ip dhcp pool IT
+network 192.168.1.0 255.255.255.192
+default-router 192.168.1.1
+domain-name aurora-mgmit.net
+lease 0 12 0
+end
+
+conf t
+ip dhcp excluded-address 192.168.1.65 192.168.1.75
+ip dhcp pool Sales
+network 192.168.1.64 255.255.255.192
+default-router 192.168.1.65
+domain-name aurora-mgmit.net
+lease 0 12 0
+end
+
+conf t
+ip dhcp excluded-address 192.168.1.129 192.168.1.139
+ip dhcp pool HR
+network 192.168.1.128 255.255.255.192
+default-router 192.168.1.129
+domain-name aurora-mgmit.net
+lease 0 12 0
+end
+
+conf t
+ip dhcp excluded-address 192.168.1.193 192.168.1.203
+ip dhcp pool Server
+network 192.168.1.192 255.255.255.192
+default-router 192.168.1.193
+domain-name aurora-mgmit.net
+lease 0 12 0
+end
+
+write mem

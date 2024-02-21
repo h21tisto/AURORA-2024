@@ -1,0 +1,154 @@
+HK-S1
+
+----
+enable
+conf t
+sdm prefer dual-ipv4-and-ipv6 default
+exit
+write mem
+reload
+
+-------------> VERKAR VARA BUGGAT I PACKET TRACER - IPSG ska inte vara på static address host portar!
+STP INTE CONFIGURED
+conf t
+ip dhcp snooping
+ip dhcp snooping vlan 10,20,30,40,50
+ip arp inspection vlan 10,20,30,40,50
+ip arp inspection validate src-mac dst-mac ip
+int fa0/5
+ip arp inspection trust
+ip dhcp snooping trust
+exit
+int range fa0/1-4
+ip dhcp snooping limit rate 8
+ip arp inspection trust
+exit
+int range fa0/6-24
+ip dhcp snooping limit rate 3
+ip verify source
+end
+-------------/>
+----
+
+enable
+
+conf t
+hostname HK-S1
+banner motd 'Unauthorized Access is Prohibited'
+service password-encryption
+no ip domain-lookup
+enable secret password
+ip default-gateway 10.0.0.1
+ipv6 route ::/0 2001:db8:acad:20::1'
+end
+
+conf t
+line con 0
+password password
+login
+logging synchronous
+end
+
+conf t
+username admin privilege 15 secret password
+username readonly privilege 1 secret password
+end
+
+conf t
+ip domain-name aurora-lab.com
+crypto key generate rsa
+2048
+ip ssh version 2
+ip ssh time-out 120
+ip ssh authentication-retries 3
+end
+
+conf t
+line vty 0 15
+login local
+password password
+transport input ssh
+logging synchronous
+end
+
+conf t
+vlan 10
+name IT
+vlan 20
+name Sales
+vlan 30
+name HR
+vlan 40
+name Butik
+vlan 50
+name Server
+vlan 666
+name Black-Hole
+vlan 100
+name Native
+end
+
+conf t
+int vlan10
+ip address 10.0.0.2 255.255.255.192
+ipv6 address 2001:db8:acad:10::2/64
+ipv6 address fe80::2 link-local
+end
+
+conf t
+int range fa0/1-24
+switchport mode access
+switchport access vlan 666
+shutdown
+end
+
+conf t
+int range fa0/1-2
+no shutdown
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50
+switchport trunk native vlan 100
+channel-group 1 mode active
+end
+
+conf t
+int range fa0/3-4
+no shutdown
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50
+switchport trunk native vlan 100
+channel-group 2 mode active
+end
+
+conf t
+int fa0/5
+no shutdown
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40,50
+switchport trunk native vlan 100
+end
+
+conf t
+int range fa0/6-9
+no shutdown
+switchport access vlan 10
+desc #Connects to vlan IT#
+end
+
+conf t
+int range fa0/23-24
+no shutdown
+switchport access vlan 50
+desc #Connects to vlan Server#
+end
+
+conf t
+int range fa0/6-24
+switchport port-security
+switchport port-security violation shutdown
+switchport port-security mac-address sticky
+switchport port-security maximum 1
+switchport port-security violation shutdown
+end
+
+write memory
