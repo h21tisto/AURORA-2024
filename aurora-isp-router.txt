@@ -1,0 +1,42 @@
+ISP Router:
+
+enable
+
+conf t
+int g0/0
+no shutdown
+ip address 192.168.4.2 255.255.255.0
+exit
+
+int g0/1
+no shutdown
+ip address 192.168.3.2 255.255.255.0
+exit
+
+router ospf 1
+network 192.168.3.0 0.0.0.255 area 0
+network 192.168.4.0 0.0.0.255 area 0
+end
+
+write mem
+
+!------------------------SHA Authentication--------------->
+https://community.cisco.com/t5/networking-knowledge-base/configuring-amp-understanding-ospf-hmac-authentication/ta-p/4483275
+
+configure terminal
+key chain edge-to-isp
+   key 1
+   cryptographic-algorithm hmac-sha-512
+   key-string use-128-hex-digits-here
+
+key chain fk-to-isp
+   key 1
+   cryptographic-algorithm hmac-sha-512
+   key-string use-128-hex-digits-here
+
+interface Gigabit0/1
+  ip ospf authentication key-chain edge-to-isp
+
+interface Gigabit0/0
+  ip ospf authentication key-chain fk-to-isp
+!

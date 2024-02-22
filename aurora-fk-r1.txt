@@ -109,4 +109,32 @@ domain-name aurora-mgmit.net
 lease 0 12 0
 end
 
+conf t
+int g0/1
+ip address 192.168.4.1 255.255.255.0
+no shutdown
+exit
+router ospf 1
+network 192.168.1.0 0.0.0.255 area 0
+network 192.168.4.0 0.0.0.255 area 0
+end
+
 write mem
+
+!------------------------SHA Authentication--------------->
+https://community.cisco.com/t5/networking-knowledge-base/configuring-amp-understanding-ospf-hmac-authentication/ta-p/4483275
+
+configure terminal
+key chain edge-to-isp
+   key 1
+   cryptographic-algorithm hmac-sha-512
+   key-string use-128-hex-digits-here
+
+key chain fk-to-isp
+   key 1
+   cryptographic-algorithm hmac-sha-512
+   key-string use-128-hex-digits-here
+
+interface Gigabit0/1
+  ip ospf authentication key-chain fk-to-isp
+!
