@@ -34,7 +34,7 @@ service password-encryption
 no ip domain-lookup
 enable secret password
 ip default-gateway 10.0.0.1
-ipv6 route ::/0 2001:db8:acad:20::1'
+ipv6 route ::/0 2001:db8:acad:20::1
 end
 
 conf t
