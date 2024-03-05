@@ -9,6 +9,9 @@ permit tcp 192.168.1.64 0.0.0.63 any eq www
 permit tcp 192.168.1.64 0.0.0.63 any eq 443
 permit tcp 192.168.1.128 0.0.0.63 any eq www
 permit tcp 192.168.1.128 0.0.0.63 any eq 443
+permit udp host 192.168.4.1 host 192.168.2.1 eq isakmp
+permit esp host 192.168.4.1 host 192.168.2.1
+permit ahp host 192.168.4.1 host 192.168.2.1
 permit ospf any any
 deny ip any any
 exit
@@ -18,6 +21,9 @@ Remark Permits return traffic caused by SURFING
 permit tcp any 192.168.1.0 0.0.0.63 established
 permit tcp any 192.168.1.64 0.0.0.63 established
 permit tcp any 192.168.1.128 0.0.0.63 established
+permit udp host 192.168.2.1 host 192.168.4.1 eq isakmp
+permit esp host 192.168.2.1 host 192.168.4.1
+permit ahp host 192.168.2.1 host 192.168.4.1
 deny ip any any
 exit
 

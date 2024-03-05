@@ -10,6 +10,9 @@ permit tcp 10.0.0.128 0.0.0.63 any eq www
 permit tcp 10.0.0.128 0.0.0.63 any eq 443
 permit tcp 10.0.0.192 0.0.0.31 any eq www
 permit tcp 10.0.0.192 0.0.0.31 any eq 443
+permit udp host 192.168.2.1 host 192.168.4.1 eq isakmp
+permit esp host 192.168.2.1 host 192.168.4.1
+permit ahp host 192.168.2.1 host 192.168.4.1
 permit ospf any any
 deny ip any any
 exit
@@ -20,6 +23,9 @@ permit tcp any 10.0.0.0 0.0.0.63 established
 permit tcp any 10.0.0.64 0.0.0.63 established
 permit tcp any 10.0.0.128 0.0.0.63 established
 permit tcp any 10.0.0.192 0.0.0.31 established
+permit udp host 192.168.4.1 host 192.168.2.1 eq isakmp
+permit esp host 192.168.4.1 host 192.168.2.1
+permit ahp host 192.168.4.1 host 192.168.2.1
 permit ospf any any
 deny ip any any
 exit
