@@ -18,7 +18,7 @@ service password-encryption
 no ip domain-lookup
 enable secret password
 ip default-gateway 192.168.1.1
-ipv6 route ::/0 2001:db8:acad:f10::1'
+ipv6 route ::/0 2001:db8:acad:f10::1
 end
 
 conf t
@@ -66,6 +66,8 @@ name Native
 end
 
 conf t
+spanning-tree vlan 10,20,30,40,50 root primary
+exit
 int vlan10
 ip address 192.168.1.2 255.255.255.192
 ipv6 address 2001:db8:acad:f10::2/64
@@ -75,6 +77,8 @@ end
 conf t
 int range fa0/1-24
 switchport mode access
+switchport nonegotiate
+no cdp enable
 switchport access vlan 666
 shutdown
 end
@@ -82,10 +86,21 @@ end
 conf t
 int range fa0/1-2
 no shutdown
+spanning-tree guard root
 switchport mode trunk
 switchport trunk allowed vlan 10,20,30,50
 switchport trunk native vlan 100
-channel-group 1 mode active
+channel-group 1 mode on
+end
+
+conf t
+int range fa0/5-6
+no shutdown
+spanning-tree guard loop
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,50
+switchport trunk native vlan 100
+channel-group 3 mode on
 end
 
 conf t
@@ -97,7 +112,7 @@ switchport trunk native vlan 100
 end
 
 conf t
-int range fa0/4
+int fa0/4
 no shutdown
 switchport access vlan 10
 desc #Connects to vlan IT#
@@ -108,6 +123,11 @@ int range fa0/23-24
 no shutdown
 switchport access vlan 50
 desc #Connects to vlan Server#
+end
+
+conf t
+spanning-tree portfast default
+spanning-tree portfast bpduguard default
 end
 
 write mem
