@@ -58,7 +58,6 @@ ip ssh time-out 120
 ip ssh authentication-retries 3
 end
 
-conf t
 line vty 0 15
 login local
 password password
@@ -93,6 +92,7 @@ end
 conf t
 int range fa0/1-24
 switchport mode access
+no cdp enable
 switchport access vlan 666
 shutdown
 end
@@ -100,19 +100,21 @@ end
 conf t
 int range fa0/1-2
 no shutdown
+spanning-tree guard loop
 switchport mode trunk
 switchport trunk allowed vlan 10,20,30,40,50
 switchport trunk native vlan 100
-channel-group 1 mode active
+channel-group 1 mode on
 end
 
 conf t
 int range fa0/3-4
 no shutdown
+spanning-tree guard root
 switchport mode trunk
 switchport trunk allowed vlan 10,20,30,40,50
 switchport trunk native vlan 100
-channel-group 3 mode active
+channel-group 3 mode on
 end
 
 conf t
@@ -129,6 +131,11 @@ switchport port-security violation shutdown
 switchport port-security mac-address sticky
 switchport port-security maximum 1
 switchport port-security violation shutdown
+end
+
+conf t
+spanning-tree portfast default
+spanning-tree bpduguard default
 end
 
 write memory
