@@ -1,0 +1,13 @@
+enable
+conf t
+
+ip access-list extended SERVER_CONTROL
+Remark Controls what department reaches what server
+permit tcp 192.168.1.0 0.0.0.63 192.168.1.194 0.0.0.0 range 20 21
+permit tcp 192.168.1.64 0.0.0.63 192.168.1.194 0.0.0.0 range 20 21
+permit tcp 192.168.1.128 0.0.0.63 192.168.1.194 0.0.0.0 range 20 21
+deny ip any any
+exit
+
+int g0/0.50
+ip access-group SERVER_CONTROL out

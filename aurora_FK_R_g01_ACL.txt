@@ -1,0 +1,27 @@
+enable
+conf t
+
+ip access-list extended SURFING
+Remark Permits local IT, Sales and HR to connect to the Web
+permit tcp 192.168.1.0 0.0.0.63 any eq www
+permit tcp 192.168.1.0 0.0.0.63 any eq 443
+permit tcp 192.168.1.64 0.0.0.63 any eq www
+permit tcp 192.168.1.64 0.0.0.63 any eq 443
+permit tcp 192.168.1.128 0.0.0.63 any eq www
+permit tcp 192.168.1.128 0.0.0.63 any eq 443
+permit ospf any any
+deny ip any any
+exit
+
+ip access-list extended SURFING_RET
+Remark Permits return traffic caused by SURFING
+permit tcp any 192.168.1.0 0.0.0.63 established
+permit tcp any 192.168.1.64 0.0.0.63 established
+permit tcp any 192.168.1.128 0.0.0.63 established
+deny ip any any
+exit
+
+int g0/1
+ip access-group SURFING out
+ip access-group SURFING_RET in
+exit

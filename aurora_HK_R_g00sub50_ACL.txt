@@ -1,0 +1,17 @@
+enable
+conf t
+
+ip access-list extended SERVER_CONTROL
+Remark Controls what department reaches what server
+permit tcp 10.0.0.0 0.0.0.63 10.0.0.226 0.0.0.0 range 20 21
+permit tcp 10.0.0.64 0.0.0.63 10.0.0.226 0.0.0.0 range 20 21
+permit tcp 10.0.0.128 0.0.0.63 10.0.0.226 0.0.0.0 range 20 21
+permit tcp 10.0.0.192 0.0.0.31 10.0.0.226 0.0.0.0 range 20 21
+
+permit tcp 10.0.0.0 0.0.0.63 10.0.0.227 0.0.0.0 eq 6514
+permit udp 10.0.0.0 0.0.0.63 10.0.0.227 0.0.0.0 eq 514
+deny ip any any
+exit
+
+int g0/0.50
+ip access-group SERVER_CONTROL out
