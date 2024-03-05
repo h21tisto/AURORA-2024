@@ -1,0 +1,14 @@
+enable
+conf t
+ip access-list extended ESTABLISHED_ONLY
+Remark Permits established connections and any connection to the Web server
+permit tcp any 192.168.3.1 0.0.0.0 eq www
+permit tcp any 192.168.3.1 0.0.0.0 eq 443
+permit tcp any any established
+permit ospf any any
+deny ip any any
+exit
+
+int g0/1
+ip access-group ESTABLISHED_ONLY in
+exit
