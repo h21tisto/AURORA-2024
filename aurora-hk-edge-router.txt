@@ -5,8 +5,6 @@ HK Edge Router:
 enable
 conf t
 
-hostname HK-Edge
-
 int g0/0
 ip nat outside
 exit
@@ -29,6 +27,7 @@ ip nat inside source static 192.168.5.2 192.168.3.1
 enable
 
 conf t
+hostname HK-Edge
 no cdp run
 int g0/1
 ip address 192.168.3.1 255.255.255.0
