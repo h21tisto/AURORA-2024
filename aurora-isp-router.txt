@@ -3,6 +3,8 @@ ISP Router:
 enable
 
 conf t
+hostname router-isp
+
 int g0/0
 no shutdown
 ip address 192.168.4.2 255.255.255.0
