@@ -156,7 +156,7 @@ end
 
 conf t
 spanning-tree portfast default
-spanning-tree bpduguard default
+spanning-tree portfast bpduguard default
 end
 
 write memory
