@@ -6,6 +6,10 @@ permit tcp any 192.168.3.1 0.0.0.0 eq www
 permit tcp any 192.168.3.1 0.0.0.0 eq 443
 permit tcp any any established
 permit ospf any any
+permit udp host 192.168.4.1 host 192.168.2.1 eq isakmp
+permit esp host 192.168.4.1 host 192.168.2.1
+permit ahp host 192.168.4.1 host 192.168.2.1
+deny icmp any any
 deny ip any any
 exit
 
