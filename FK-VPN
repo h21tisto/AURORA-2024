@@ -1,0 +1,32 @@
+conf t
+crypto isakmp policy 1
+hash sha256
+authentication pre-shared
+group 24
+lifetime 14400 
+encryption aes 256
+crypto isakmp key password address 192.168.2.1
+end
+
+
+conf t
+access-list 102 permit ip 192.168.1.0 0.0.0.255 10.0.0.0 0.0.0.255
+
+
+
+crypto ipsec transform-set HK_router-FK_router esp-aes esp-sha256-hmac
+end
+
+
+conf t
+crypto map HK-FK_MAP 10 ipsec-isakmp
+match address 102 
+set transform-set HK_router-FK_router
+set peer 192.168.2.1
+set pfs group24
+set security-association lifetime seconds 900
+end
+
+conf t
+interface g0/1
+crypto map HK-FK_MAP 
