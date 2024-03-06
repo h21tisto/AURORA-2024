@@ -129,7 +129,7 @@ int range fa0/5-24
 switchport port-security
 switchport port-security violation shutdown
 switchport port-security mac-address sticky
-switchport port-security maximum 1
+switchport port-security maximum 3
 switchport port-security violation shutdown
 end
 
