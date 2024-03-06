@@ -31,6 +31,7 @@ hostname HK-Edge
 no cdp run
 int g0/1
 ip address 192.168.3.1 255.255.255.0
+ip ospf message-digest-key 1 md5 password
 no shutdown
 exit
 
@@ -42,6 +43,7 @@ exit
 router ospf 1
 network 192.168.3.0 0.0.0.255 area 0
 network 192.168.2.0 0.0.0.255 area 0
+area 0 authentication message-digest
 end
 
 write mem
