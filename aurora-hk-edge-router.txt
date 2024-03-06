@@ -5,6 +5,8 @@ HK Edge Router:
 enable
 conf t
 
+hostname HK-Edge
+
 int g0/0
 ip nat outside
 exit
