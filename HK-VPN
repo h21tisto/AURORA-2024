@@ -1,7 +1,7 @@
 conf t
 crypto isakmp policy 1
 hash sha256
-authentication pre-shared
+authentication pre-share
 group 24
 lifetime 14400 
 encryption aes 256
