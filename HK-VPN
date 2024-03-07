@@ -5,6 +5,7 @@ authentication pre-share
 group 24
 lifetime 14400 
 encryption aes 256
+exit
 crypto isakmp key password address 192.168.4.1
 end
 
