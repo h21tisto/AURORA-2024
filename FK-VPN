@@ -6,7 +6,7 @@ group 24
 lifetime 14400 
 encryption aes 256
 exit
-crypto isakmp key password address 192.168.2.1
+crypto isakmp key password address 209.100.0.1
 end
 
 
