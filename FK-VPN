@@ -23,7 +23,7 @@ conf t
 crypto map HK-FK_MAP 10 ipsec-isakmp
 match address 102 
 set transform-set HK_router-FK_router
-set peer 192.168.2.1
+set peer 209.100.0.1
 set pfs group24
 set security-association lifetime seconds 900
 end
