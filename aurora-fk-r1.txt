@@ -39,6 +39,7 @@ access-list 100 deny ip 192.168.1.0 0.0.0.255 10.0.0.0 0.0.0.255
 access-list 100 permit ip 192.168.1.0 0.0.0.255 any
 
 ip nat inside source list 100 interface gigabitEthernet 0/1 overload
+end
 
 conf t
 line vty 0 15
