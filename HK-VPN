@@ -6,7 +6,7 @@ group 24
 lifetime 14400 
 encryption aes 256
 exit
-crypto isakmp key password address 192.168.4.1
+crypto isakmp key password address 209.200.0.1
 end
 
 
@@ -24,7 +24,7 @@ conf t
 crypto map HK-FK_MAP 10 ipsec-isakmp
 match address 101 
 set transform-set HK_router-FK_router
-set peer 192.168.4.1
+set peer 209.200.0.1
 set pfs group24
 set security-association lifetime seconds 900
 end
