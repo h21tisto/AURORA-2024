@@ -37,27 +37,14 @@ exit
 
 int g0/0
 no shutdown
-ip address 192.168.2.2 255.255.255.0
+ip address 209.100.0.2 255.255.255.0
 ip ospf message-digest-key 1 md5 password
 
 exit
 router ospf 1
 network 192.168.3.0 0.0.0.255 area 0
-network 192.168.2.0 0.0.0.255 area 0
+passive-interface g0/0
 area 0 authentication message-digest
 end
 
 write mem
-
-!------------------------SHA Authentication--------------->
-https://community.cisco.com/t5/networking-knowledge-base/configuring-amp-understanding-ospf-hmac-authentication/ta-p/4483275
-
-configure terminal
-key chain edge-to-isp
-   key 1
-   cryptographic-algorithm hmac-sha-512
-   key-string use-128-hex-digits-here
-
-interface Gigabit0/1
-  ip ospf authentication key-chain ospf-hmac-key1
-!
