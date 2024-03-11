@@ -131,5 +131,8 @@ conf t
 int g0/1
 ip address 209.100.0.1 255.255.255.0
 no shutdown
+exit
+ip route 0.0.0.0 0.0.0.0 g0/1
+end
 
 write mem
