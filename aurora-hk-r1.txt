@@ -127,4 +127,9 @@ domain-name aurora-mgmit.net
 lease 0 12 0
 end
 
+conf t
+int g0/1
+ip address 209.100.0.1 255.255.255.0
+no shutdown
+
 write mem
