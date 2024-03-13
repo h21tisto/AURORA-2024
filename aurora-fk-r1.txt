@@ -132,22 +132,40 @@ exit
 ip route 0.0.0.0 0.0.0.0 209.200.0.2
 end
 
+conf t
+zone security INSIDE
+exit
+zone security OUTSIDE
+exit
+
+access-list 111 permit ip any any
+end 
+conf t
+
+class-map type inspect match-any IN_TO_OUT_C
+match access-group 111
+exit
+
+policy-map type inspect IN_TO_OUT_P
+class type inspect IN_TO_OUT_C
+inspect
+end
+
+conf t
+zone-pair security IN_TO_OUT_PAIR source INSIDE destination OUTSIDE
+service-policy type inspect IN_TO_OUT_P
+end
+
+conf t
+int g0/0.10
+zone-member security INSIDE
+int g0/0.20
+zone-member security INSIDE
+int g0/0.30
+zone-member security INSIDE
+int g0/0.50
+zone-member security INSIDE
+int g0/1
+zone-member security OUTSIDE
+
 write mem
-
-!------------------------SHA Authentication--------------->
-https://community.cisco.com/t5/networking-knowledge-base/configuring-amp-understanding-ospf-hmac-authentication/ta-p/4483275
-
-configure terminal
-key chain edge-to-isp
-   key 1
-   cryptographic-algorithm hmac-sha-512
-   key-string use-128-hex-digits-here
-
-key chain fk-to-isp
-   key 1
-   cryptographic-algorithm hmac-sha-512
-   key-string use-128-hex-digits-here
-
-interface Gigabit0/1
-  ip ospf authentication key-chain fk-to-isp
-!
