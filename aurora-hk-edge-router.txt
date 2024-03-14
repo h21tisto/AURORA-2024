@@ -1,13 +1,8 @@
 HK Edge Router:
 
 !------------------------NAT Translation for Web Server--------------->
-######## Packet tracer klarar inte av NAT och alla pings slutar fungera efter man implementerat och startat om PT. #######
 enable
 conf t
-
-int g0/1
-ip nat outside
-exit
 
 int g0/2
 ip nat inside
@@ -15,7 +10,7 @@ ip address 192.168.5.1 255.255.255.0
 no shut
 exit
 
-ip nat inside source static 192.168.5.2 209.100.0.1
+ip nat inside source static tcp 192.168.5.2 80 209.100.0.1 80
 !--------------------------------------->
 
 
@@ -51,6 +46,7 @@ conf t
 access-list 100 remark == [Control NAT Service]==
 access-list 100 deny ip 10.0.0.0 0.0.0.255 192.168.1.0 0.0.0.255 
 access-list 100 permit ip 10.0.0.0 0.0.0.255 any
+access-list 100 permit ip 192.168.5.0 0.0.0.255 any
 
 ip nat inside source list 100 interface gigabitEthernet 0/1 overload
 end
