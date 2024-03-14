@@ -167,5 +167,16 @@ int g0/0.50
 zone-member security INSIDE
 int g0/1
 zone-member security OUTSIDE
+end
+
+conf t
+int g0/1
+ip ospf message-digest-key 1 md5 password
+exit
+
+router ospf 1
+network 209.200.0.0 0.0.0.255 area 0
+area 0 authentication message-digest
+end
 
 write mem
