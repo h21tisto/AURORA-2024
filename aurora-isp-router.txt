@@ -17,9 +17,15 @@ ip ospf message-digest-key 1 md5 password
 ip address 209.100.0.2 255.255.255.0
 exit
 
+int g0/2
+no shut
+ip address 209.250.0.1 255.255.255.0
+exit
+
 router ospf 1
 network 209.200.0.0 0.0.0.255 area 0
 network 209.100.0.0 0.0.0.255 area 0
+network 209.250.0.0 0.0.0.255 area 1
 area 0 authentication message-digest
 end
 
