@@ -5,10 +5,6 @@ HK Edge Router:
 enable
 conf t
 
-int g0/0
-ip nat outside
-exit
-
 int g0/1
 ip nat outside
 exit
@@ -19,8 +15,7 @@ ip address 192.168.5.1 255.255.255.0
 no shut
 exit
 
-ip nat inside source static 192.168.5.2 192.168.2.2
-ip nat inside source static 192.168.5.2 192.168.3.1
+ip nat inside source static 192.168.5.2 209.100.0.1
 !--------------------------------------->
 
 
