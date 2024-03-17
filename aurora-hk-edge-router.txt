@@ -13,7 +13,6 @@ exit
 ip nat inside source static tcp 192.168.5.2 80 209.100.0.1 80
 !--------------------------------------->
 
-
 enable
 
 conf t
@@ -49,6 +48,94 @@ access-list 100 permit ip 10.0.0.0 0.0.0.255 any
 access-list 100 permit ip 192.168.5.0 0.0.0.255 any
 
 ip nat inside source list 100 interface gigabitEthernet 0/1 overload
+end
+
+conf t
+zone security INSIDE
+exit
+zone security OUTSIDE
+exit
+zone security DMZ	
+exit
+
+access-list 111 permit ip any any
+end 
+conf t
+
+class-map type inspect match-any IN_TO_OUT_C
+match access-group 111
+exit
+
+policy-map type inspect IN_TO_OUT_P
+class type inspect IN_TO_OUT_C
+inspect
+end
+
+conf t
+zone-pair security IN_TO_OUT_PAIR source INSIDE destination OUTSIDE
+service-policy type inspect IN_TO_OUT_P
+end
+
+conf t
+int g0/0
+zone-member security INSIDE
+int g0/1
+zone-member security OUTSIDE
+int g0/2
+zone-member security DMZ
+end
+
+conf t
+ip access-list extended ALLOW_VPN_TRAFFIC
+permit icmp 192.168.1.0 0.0.0.255 any
+exit
+
+class-map type inspect match-any OUT_TO_IN_C
+match access-group name ALLOW_VPN_TRAFFIC
+exit
+
+policy-map type inspect OUT_TO_IN_P
+class type inspect OUT_TO_IN_C
+pass
+end
+
+conf t
+zone-pair security OUT_TO_IN_PAIR source OUTSIDE destination INSIDE
+service-policy type inspect OUT_TO_IN_P
+end
+
+conf t
+ip access-list extended ALLOW_HTTP
+permit tcp any 192.168.5.0 0.0.0.255 eq www
+exit
+
+class-map type inspect match-any OUT_TO_DMZ
+match access-group name ALLOW_HTTP
+exit
+
+policy-map type inspect OUT_TO_DMZ_P
+class type inspect OUT_TO_DMZ_C
+pass
+end
+
+conf t
+zone-pair security OUT_TO_DMZ_PAIR source OUTSIDE destination DMZ
+service-policy type inspect OUT_TO_DMZ_P
+end
+
+conf t
+class-map type inspect match-any IN_TO_DMZ_C
+match access-group name ALLOW_HTTP
+exit
+
+policy-map type inspect IN_TO_DMZ_P
+class type inspect IN_TO_DMZ_C
+pass
+end
+
+conf t
+zone-pair security IN_TO_DMZ_PAIR source INSIDE destination DMZ
+service-policy type inspect IN_TO_DMZ_P
 end
 
 write mem
