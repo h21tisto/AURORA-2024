@@ -3,6 +3,7 @@ HK Router:
 enable
 
 conf t
+ntp server 10.0.1.2
 no cdp run
 no ip domain-lookup
 hostname HK-Router
