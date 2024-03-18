@@ -57,6 +57,7 @@ transport input ssh
 logging synchronous
 end
 
+conf t
 int g0/1
 ip nat outside
 ip address 209.100.0.1 255.255.255.0
