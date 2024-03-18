@@ -1,5 +1,18 @@
 FK Router:
 
+--------
+conf t
+aaa new model
+aaa authentication login default local-case enable
+exit
+enable view
+conf t
+parser view readonlyview
+secret readonlypass
+commands exec include all show
+end
+--------
+
 enable
 
 clock set 12:00:00 march 20 2024
