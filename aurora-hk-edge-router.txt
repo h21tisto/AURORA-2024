@@ -15,7 +15,10 @@ ip nat inside source static tcp 192.168.5.2 80 209.100.0.1 80
 
 enable
 
+clock set 12:00:00 march 20 2024
+
 conf t
+ntp master 1
 hostname HK-Edge
 no ip domain-lookup
 no cdp run
