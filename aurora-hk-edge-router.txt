@@ -149,7 +149,7 @@ ip access-list extended ALLOW_HTTP
 permit tcp any 192.168.5.0 0.0.0.255 eq www
 exit
 
-class-map type inspect match-any OUT_TO_DMZ
+class-map type inspect match-any OUT_TO_DMZ_C
 match access-group name ALLOW_HTTP
 exit
 
