@@ -28,6 +28,7 @@ conf t
 ip domain-name aurora-lab.com
 crypto key generate rsa
 2048
+privilege level 15
 ip ssh version 2
 ip ssh time-out 120
 ip ssh authentication-retries 3
