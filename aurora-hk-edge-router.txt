@@ -17,7 +17,44 @@ enable
 
 conf t
 hostname HK-Edge
+no ip domain-lookup
 no cdp run
+enable secret password
+service password-encryption
+banner motd 'Unauthorized Access is Prohibited'
+end
+
+conf t
+line console 0
+password password
+login
+logging synchronous
+end
+
+conf t
+username admin privilege 15 secret password
+username readonly privilege 1 secret password
+end
+
+conf t
+ip domain-name aurora-lab.com
+crypto key generate rsa
+2048
+privilege level 15
+ip ssh version 2
+ip ssh time-out 120
+ip ssh authentication-retries 3
+end
+
+conf t
+line vty 0 15
+login local
+privilege level 15
+password password
+transport input ssh
+logging synchronous
+end
+
 int g0/1
 ip nat outside
 ip address 209.100.0.1 255.255.255.0
