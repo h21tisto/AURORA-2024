@@ -66,6 +66,7 @@ end
 conf t
 line vty 0 15
 login local
+privilege level 15
 password password
 transport input ssh
 logging synchronous
