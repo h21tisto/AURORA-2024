@@ -85,6 +85,10 @@ vlan 100
 name Native
 end
 
+conf
+spanning-tree mode rapid-pvst
+end
+
 conf t
 int vlan10
 ip address 10.0.0.3 255.255.255.192
