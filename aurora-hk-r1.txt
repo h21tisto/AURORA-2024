@@ -3,8 +3,6 @@ HK Router:
 enable
 
 conf t
-aaa new-model
-aaa authorization
 ntp server 10.0.1.2
 no cdp run
 no ip domain-lookup
