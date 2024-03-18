@@ -2,7 +2,7 @@ FK Router:
 
 --------
 conf t
-aaa new model
+aaa new-model
 aaa authentication login default local-case enable
 exit
 enable view
