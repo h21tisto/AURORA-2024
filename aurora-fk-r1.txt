@@ -18,6 +18,7 @@ enable
 clock set 12:00:00 march 20 2024
 
 conf t
+ipv6 unicast-routing 
 ntp master 1
 no cdp run
 no ip domain-lookup
