@@ -177,7 +177,7 @@ end
 
 conf t
 ip access-list extended ALLOW_VPN_TRAFFIC
-permit icmp 10.0.0.0 0.0.0.255 any
+permit ip 10.0.0.0 0.0.0.255 any
 exit
 
 class-map type inspect match-any OUT_TO_IN_C
