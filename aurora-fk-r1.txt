@@ -176,6 +176,25 @@ service-policy type inspect IN_TO_OUT_P
 end
 
 conf t
+ip access-list extended ALLOW_VPN_TRAFFIC
+permit icmp 10.0.0.0 0.0.0.255 any
+exit
+
+class-map type inspect match-any OUT_TO_IN_C
+match access-group name ALLOW_VPN_TRAFFIC
+exit
+
+policy-map type inspect OUT_TO_IN_P
+class type inspect OUT_TO_IN_C
+pass
+end
+
+conf t
+zone-pair security OUT_TO_IN_PAIR source OUTSIDE destination INSIDE
+service-policy type inspect OUT_TO_IN_P
+end
+
+conf t
 int g0/0.10
 zone-member security INSIDE
 int g0/0.20
