@@ -9,6 +9,7 @@ exit
 
 ip access-list extended OUT_TO_IN_ACL
 permit icmp 192.168.1.0 0.0.0.255 any
+permit icmp any any echo-reply
 
 class-map type inspect match-any IN_TO_OUT_C
 match protocol icmp
