@@ -29,6 +29,7 @@ service-policy type inspect IN_TO_OUT_P
 exit
 ip access-list extended OUT_TO_IN_ICMP
 permit icmp 10.0.0.0 0.0.0.255 any
+permit icmp any any echo-reply
 exit
 class-map type inspect OUT_TO_IN_C
 match access-group name OUT_TO_IN_ICMP
