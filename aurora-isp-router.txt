@@ -9,17 +9,20 @@ int g0/0
 no shutdown
 ip ospf message-digest-key 1 md5 password
 ip address 209.200.0.2 255.255.255.0
+ipv6 address 2002:db8:acad::2/64
 exit
 
 int g0/1
 no shutdown
 ip ospf message-digest-key 1 md5 password
 ip address 209.100.0.2 255.255.255.0
+ipv6 address 2001:db8:acad::2/64
 exit
 
 int g0/2
 no shut
 ip address 209.250.0.1 255.255.255.0
+ipv6 address 2003:db8:acad::3/64
 exit
 
 router ospf 1
