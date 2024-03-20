@@ -1,0 +1,56 @@
+enable	
+conf t
+zone security INSIDE 
+exit
+zone security OUTSIDE
+ip access-list extended IN_TO_OUT_INSPECT
+permit tcp any any eq www
+permit tcp any any eq 443
+permit tcp any any eq ftp
+permit tcp any any eq ftp-data
+permit udp any any eq syslog
+exit
+class-map type permit inspect IN_TO_OUT_ICMP
+match protocol icmp
+exit
+class-map type inspect IN_TO_OUT_INSPECT_C
+match access-group name IN_TO_OUT_INSPECT
+exit
+policy-map type inspect IN_TO_OUT_P
+class type inspect IN_TO_OUT_ICMP
+pass
+exit
+class type inspect IN_TO_OUT_INSPECT_C
+inspect
+exit
+exit
+zone-pair security IN_TO_OUT_PAIR source INSIDE destination OUTSIDE
+service-policy type inspect IN_TO_OUT_P
+exit
+ip access-list extended OUT_TO_IN_ICMP
+permit icmp 10.0.0.0 0.0.0.255 any
+exit
+class-map type inspect OUT_TO_IN_C
+match access-group name OUT_TO_IN_ICMP
+exit
+policy-map type inspect OUT_TO_IN_P
+class type inspect OUT_TO_IN_C
+pass
+exit
+zone-pair security OUT_TO_IN_PAIR source OUTSIDE destination INSIDE
+service-policy type inspect OUT_TO_IN_P
+end
+conf t
+int g0/0.10
+zone-memeber security INSIDE
+int g0/0.20
+zone-memeber security INSIDE
+int g0/0.30
+zone-memeber security INSIDE
+int g0/0.50
+zone-memeber security INSIDE
+exit
+int g0/1
+zone-memeber security OUTSIDE
+end
+
