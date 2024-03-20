@@ -62,6 +62,7 @@ conf t
 int g0/1
 ip nat outside
 ip address 209.100.0.1 255.255.255.0
+ipv6 address 2001:db8:acad::1/64
 ip ospf message-digest-key 1 md5 password
 no shutdown
 exit
@@ -70,6 +71,7 @@ int g0/0
 no shutdown
 ip nat inside
 ip address 10.0.1.2 255.255.255.0
+ipv6 address 2001:db8:acad:1::1/64
 ip ospf message-digest-key 1 md5 password
 
 exit
