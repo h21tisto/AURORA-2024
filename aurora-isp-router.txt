@@ -22,7 +22,7 @@ exit
 int g0/2
 no shut
 ip address 209.250.0.1 255.255.255.0
-ipv6 address 2003:db8:acad::3/64
+ipv6 address 2003:db8:acad::1/64
 exit
 
 router ospf 1
