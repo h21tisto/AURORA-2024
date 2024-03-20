@@ -85,7 +85,7 @@ vlan 100
 name Native
 end
 
-conf
+conf t
 spanning-tree mode rapid-pvst
 end
 
