@@ -1,0 +1,65 @@
+
+ip access-list extended IN_TO_OUT_ACL
+permit tcp any any eq www
+permit tcp any any eq 443
+permit tcp any any eq ftp
+permit tcp any any eq ftp-data
+permit udp any any eq syslog
+exit
+
+ip access-list extended OUT_TO_IN_ACL
+permit icmp 192.168.1.0 0.0.0.255 any
+
+class-map type inspect match-any IN_TO_OUT_C
+match protocol icmp
+exit
+
+class-map type inspect match-any OUT_TO_IN_C
+match access-group name OUT_TO_IN_ACL
+exit
+
+class-map type inspect match-any IN_TO_OUT_INSPECT_C
+match access-group name IN_TO_OUT_INSPECT_ACL
+
+class-map type inspect match-any HTTP_TRAFFIC
+match protocol http
+match protocol https
+exit
+
+policy-map type inspect IN_TO_OUT_P
+class type inspect IN_TO_OUT_C
+pass
+exit
+class type inspect IN_TO_OUT_INSPECT_C
+inspect
+end
+
+conf t
+policy-map type inspect OUT_TO_IN_P
+class type inspect OUT_TO_IN_C
+pass
+end
+
+conf t
+policy-map type inspect IN_TO_DMZ_P
+class type inspect HTTP_TRAFFIC
+inspect
+exit
+exit
+
+policy-map type inspect OUT_TO_DMZ_P
+class type inspect HTTP_TRAFFIC
+inspect
+end
+
+conf t
+zone-pair security IN_TO_DMZ_PAIR source INSIDE destination DMZ
+service-policy type inspect IN_TO_DMZ_P
+exit
+zone-pair security OUT_TO_DMZ_PAIR source OUTSIDE destination DMZ
+service-policy type inspect OUT_TO_DMZ_P
+end
+
+conf t
+int g0/2
+zone-member security DMZ
